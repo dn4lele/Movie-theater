@@ -1,18 +1,21 @@
-import Sequelize from "sequelize";
-import dotenv from "dotenv";
+import  Sequelize  from "sequelize";
+import dotenv from 'dotenv';
 dotenv.config();
 
 
 
-
-const connection =new Sequelize(
-    process.env.DATABASE_NAME, //database name
-    process.env.DATABASE_USERNAME, // userr
-    process.env.DATABASE_PASSWORD,
+const sequelize =new Sequelize(
+    process.env.DB_NAME, //database name
+    process.env.DB_USERNAME, // uesr
+    process.env.DB_PASSWORD,
     {
-        dialect: 'mysql',
-        host: 'localhost'
+        dialect: process.env.DB_DIALECT,
+        host: process.env.DB_HOST
     }
 )
 
-export default connection;
+
+
+
+
+export default sequelize;

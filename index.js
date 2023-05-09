@@ -1,33 +1,33 @@
-import  express  from "express";
-import database from "./models/database.js";
-import dotenv from "dotenv";
-import actions from "./controller/actions.js";
+import express from "express";
+import dotenv from 'dotenv';
+import actions from './controller/actions.js';
 dotenv.config();
+import database from './models/database.js';
 
 const app = express();
 
-app.set('view engine' , 'ejs')
-app.set('views','views')
+app.set("view engine" , "ejs" )
+app.set("views","views")
 
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 
-app.use('/',actions)
+const port=process.env.PORT;
+
+//ROUTES
+app.use('/myapi',actions);
 
 database
 .sync()
-.then(good => {
-    console.log(good);
-    app.listen(process.env.PORT,()=>{
-        console.log(`Server is running via port ${process.env.PORT}`)
-    })
-} )
-.catch(err => { 
-    console.log(err);
+.then(results => {
+    console.log(results)
+    app.listen(port,()=>{console.log(`the server is running via port ${port}`)});
+
 })
+.catch(error => console.log(error.message))
 
 
-app.listen()
+
 
 
 
