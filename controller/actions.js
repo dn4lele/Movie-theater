@@ -5,6 +5,27 @@ import bcryptjs from "bcryptjs";
 import Auth from '../auth.js';
 import Account from "../models/account.js";
 import moviesdb from "../models/movies.js";
+import chairsdb from "../models/chairs.js";
+
+
+router.get('/chairformovie/:howmuchtoadd', async (req, res) => {
+    try {
+        let addchairs=req.params.howmuchtoadd
+        if(addchairs==1) {
+            chairsdb.create({istaken:false})
+        } else {
+            let lastChair = await chairsdb.findOne({ order: [ [ 'createdAt', 'DESC' ] ] });
+            await lastChair.destroy();
+        }
+  
+        let totalChairs = await chairsdb.findAll();
+        res.render('insidemovie', { totalChairs:totalChairs  });
+    } catch (error) {
+      // Send an error response if something goes wrong
+
+      res.render('insidemovie', { totalChairs:0  });
+    }
+});
 
 
 router.get('/deletemovie/:moviename', async (req, res) => {
