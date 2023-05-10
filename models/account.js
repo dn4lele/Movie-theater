@@ -16,7 +16,6 @@ const account = database.define('account',{
         type:Sequelize.STRING,
         allowNull:false 
     },
-    isadmin:Sequelize.BOOLEAN,
 
     
 });
