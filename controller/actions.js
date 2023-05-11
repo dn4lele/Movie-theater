@@ -8,6 +8,53 @@ import moviesdb from "../models/movies.js";
 import chairsdb from "../models/chairs.js";
 
 
+router.post('/book/:seatstobook', async (req, res) => {
+    const seatIds = req.params.seatstobook.split(',');
+    const chairs = await chairsdb.findAll();
+  
+    let flagalredytaken=false;
+    for (let chair of chairs) {
+      if (seatIds.includes(chair.id.toString())) {
+        if(chair.istaken==1){
+            flagalredytaken=true
+        }
+      }
+    }
+
+    if(flagalredytaken == false){
+        for (let chair of chairs) {
+            if (seatIds.includes(chair.id.toString())) {
+                  chair.istaken = 1;
+                  await chair.save();
+            }
+          }
+    }
+
+
+    
+    if(flagalredytaken == false)
+        return res.status(200).json({
+        })
+    else
+        return res.status(300).json({
+        })
+
+
+
+    if(flagalredytaken == false)
+        res.redirect('/myapi/homepage');
+    else
+        res.redirect('/myapi/thearotagain');
+
+});
+
+
+router.get('/thearotagain' , async(req,res) => {
+    let totalChairs = await chairsdb.findAll();
+    res.render('thearotagain', { totalChairs:totalChairs  });
+
+})
+
 router.get('/gotheator', async (req, res) => {
     try {
         let totalChairs = await chairsdb.findAll();
