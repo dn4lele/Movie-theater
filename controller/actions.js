@@ -8,6 +8,19 @@ import moviesdb from "../models/movies.js";
 import chairsdb from "../models/chairs.js";
 
 
+router.get('/gotheator', async (req, res) => {
+    try {
+        let totalChairs = await chairsdb.findAll();
+        res.render('theator', { totalChairs:totalChairs  });
+    } catch (error) {
+      // Send an error response if something goes wrong
+
+      res.render('theator', { totalChairs:0  });
+    }
+});
+
+
+
 router.get('/chairformovie/:howmuchtoadd', async (req, res) => {
     try {
         let addchairs=req.params.howmuchtoadd
