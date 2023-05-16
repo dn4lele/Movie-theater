@@ -23,6 +23,10 @@ const movies = database.define('movies',{
     Genre:{
         type:Sequelize.STRING,
         allowNull:false 
+    },
+    price:{
+        type:Sequelize.DOUBLE,
+        allowNull:false 
     }
 
     

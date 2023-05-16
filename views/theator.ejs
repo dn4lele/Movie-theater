@@ -179,10 +179,10 @@
 							if (xhr.status === 200) {
 								debugger
 							// Redirect to the homepage after booking the seats
-							window.location.href = '/myapi/homepage';
+							window.location.href = '/myapi/homepage/'+seatIds.length+"/<%=moviename%>";
 							} else {
 							console.log('Error booking seats: ' + xhr.statusText);
-							window.location.href = '/myapi/thearotagain';
+							window.location.href = '/myapi/thearotagain/<%=moviename%>';
 							}
 						};
 						xhr.send();

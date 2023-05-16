@@ -56,9 +56,16 @@
                 <img src="<%=item.Poster%>" class="card-img-top" alt="...">
                 <div class="card-body">
                   <h5 class="card-title"><%=item.Title%></h5>
-                  <p class="card-text"> <h5>date:</h5><%=item.Year%><Br> <h5>Genre:</h5><%=item.Genre%></p>
+                  <p class="card-text"> <h5>date:&nbsp;</h5> <%=item.Year%><Br> <h5>Genre:&nbsp;</h5><%=item.Genre%><Br> <h5>price:&nbsp;</h5><%=item.price%></p>
                     <a href="/myapi/chairformovie/0" class="btn btn-primary">edit chairs</a>
-                    <a href="/myapi/deletemovie/<%=item.Title%>" class="btn btn-primary">delete movies</a>
+                    <a href="/myapi/deletemovie/<%=item.Title%>" class="btn btn-primary">delete movie</a>
+                    
+                    <form id="changepri" method="post" action="/myapi/changeprice/<%=item.Title%>" >
+                      <input type="newprice" class="form-control" name="new_price" placeholder="newprice">
+                      <button id="changepri" type="submit" class="btn btn-danger">edit price</button>
+
+                    </form>
+
 
                 </div>
               </div>

@@ -6,6 +6,7 @@ import Auth from '../auth.js';
 import Account from "../models/account.js";
 import moviesdb from "../models/movies.js";
 import chairsdb from "../models/chairs.js";
+import { where } from "sequelize";
 
 
 router.post('/book/:seatstobook', async (req, res) => {
@@ -41,24 +42,20 @@ router.post('/book/:seatstobook', async (req, res) => {
 
 
 
-    if(flagalredytaken == false)
-        res.redirect('/myapi/homepage');
-    else
-        res.redirect('/myapi/thearotagain');
 
 });
 
 
-router.get('/thearotagain' , async(req,res) => {
+router.get('/thearotagain/:mname' , async(req,res) => {
     let totalChairs = await chairsdb.findAll();
-    res.render('thearotagain', { totalChairs:totalChairs  });
+    res.render('thearotagain', { totalChairs:totalChairs , moviename:req.params.mname   });
 
 })
 
-router.get('/gotheator', async (req, res) => {
+router.get('/gotheator/:mname', async (req, res) => {
     try {
         let totalChairs = await chairsdb.findAll();
-        res.render('theator', { totalChairs:totalChairs  });
+        res.render('theator', { totalChairs:totalChairs , moviename:req.params.mname });
     } catch (error) {
       // Send an error response if something goes wrong
 
@@ -104,11 +101,26 @@ router.get('/adminhomepage' , async(req,res) => {
 
 })
 
-router.get('/homepage' , async(req,res) => {
+router.get('/homepage/:price/:moviename' , async(req,res) => {
 
-    const movies=await moviesdb.findAll();
-
-    res.render('homepage',{allmovies:movies})
+    const movies = await moviesdb.findAll();
+    let price = 0;
+    price = parseFloat(req.params.price); // Convert string to number
+  
+    let movename = 0;
+    movename = req.params.moviename;
+    const findmovie = await moviesdb.findOne({ where: { Title: movename } });
+  
+    if (findmovie == null) {
+        res.render('homepage', { allmovies: movies, pay: 0 });
+    }else{
+        let finalprice = price * findmovie.price;
+  
+        res.render('homepage', { allmovies: movies, pay: finalprice });
+    
+    }
+    res.render('homepage', { allmovies: movies, pay: 0 });
+  
 
 })
 
@@ -212,6 +224,21 @@ router.post('/loginpost',async(req,res)=>{
 
 })
 
+
+router.post('/changeprice/:moviename',async(req,res)=>{
+    const{new_price}=req.body;
+
+    const moviename=req.params.moviename;
+
+    const result = await moviesdb.update({ price: new_price }, {
+        where: { Title: moviename }
+      });
+
+
+    res.redirect('/myapi/adminhomepage');
+
+
+})
 
 
 export default router;

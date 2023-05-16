@@ -179,7 +179,7 @@
 						xhr.onload = function() {
 							if (xhr.status === 200) {
 							// Redirect to the homepage after booking the seats
-							window.location.href = '/myapi/homepage';
+							window.location.href = '/myapi/homepage/'+seatIds.length+"/<%=moviename%>";
 							} else {
 							console.log('Error booking seats: ' + xhr.statusText);
 							}
@@ -189,7 +189,7 @@
                 </script>
 
 	<form>
-        <h5>refresh the page cuz the chairs are taken </h5>
+        <h5>refresh the page because the chairs are taken </h5>
 
 		<label for="chairs">book chairs</label>
         <a class="btn btn-primary" onclick="bookSeats()">book</a>
