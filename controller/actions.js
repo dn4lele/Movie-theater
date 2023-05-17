@@ -6,7 +6,6 @@ import Auth from '../auth.js';
 import Account from "../models/account.js";
 import moviesdb from "../models/movies.js";
 import chairsdb from "../models/chairs.js";
-import { where } from "sequelize";
 
 
 router.post('/book/:seatstobook', async (req, res) => {
@@ -44,6 +43,34 @@ router.post('/book/:seatstobook', async (req, res) => {
 
 
 });
+
+
+router.get('/add_movie' , async(req,res) => {
+    res.render('addmovies');
+
+})
+
+router.post('/addmovietodb' , async(req,res)=>{
+    debugger
+    const {Title,Poster,Year,Genre,Price}=req.body;
+    moviesdb.create({
+        Title:Title,
+        Poster:Poster,
+        Year:Year,
+        Genre:Genre,
+        price:Price
+    })
+    .then(result =>{
+        console.log(result)
+        return res.redirect('/myapi/adminhomepage')
+    })
+    .catch(errorr=>{
+        console.log(errorr.message)
+        return res.redirect('/myapi/adminhomepage')
+    })
+})
+
+
 
 
 router.get('/thearotagain/:mname' , async(req,res) => {
